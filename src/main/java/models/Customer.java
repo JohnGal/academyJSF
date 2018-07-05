@@ -10,10 +10,22 @@ public class Customer {
     private String country;
     private String city;
     private String street;
-    private int zipCode;
-    private int phoneNumber;
+    private String zipCode;
+    private String phoneNumber;
     private String email;
-    boolean hasAcceptedTerms;
+    private boolean hasAcceptedTerms;
+    private Long id;
+
+    public Customer() {
+    }
+
+    public Customer(String userName) {
+        this.userName = userName;
+    }
+
+    public Customer(Long id) {
+        this.id = id;
+    }
 
     public String getFirstName() {
         return firstName;
@@ -71,19 +83,19 @@ public class Customer {
         this.street = street;
     }
 
-    public int getZipCode() {
+    public String getZipCode() {
         return zipCode;
     }
 
-    public void setZipCode(int zipCode) {
+    public void setZipCode(String zipCode) {
         this.zipCode = zipCode;
     }
 
-    public int getPhoneNumber() {
+    public String getPhoneNumber() {
         return phoneNumber;
     }
 
-    public void setPhoneNumber(int phoneNumber) {
+    public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
     }
 
@@ -101,5 +113,28 @@ public class Customer {
 
     public void setHasAcceptedTerms(boolean hasAcceptedTerms) {
         this.hasAcceptedTerms = hasAcceptedTerms;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Customer customer = (Customer) o;
+
+        return id != null ? id.equals(customer.id) : customer.id == null;
+    }
+
+    @Override
+    public int hashCode() {
+        return id != null ? id.hashCode() : 0;
     }
 }

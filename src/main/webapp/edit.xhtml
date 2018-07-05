@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html
+        PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://xmlns.jcp.org/jsf/html" xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core" xmlns:ui="http://java.sun.com/jsf/facelets"
+      xml:lang="en" lang="en">
+<h:head>
+
+
+</h:head>
+
+<h:body>
+    <ui:composition xmlns:h="http://java.sun.com/jsf/html"
+                    xmlns:p="http://primefaces.org/ui"
+                    xmlns:f="http://java.sun.com/jsf/core"
+                    xmlns:ui="http://java.sun.com/jsf/facelets"
+                    template="/WEB-INF/templates/masterTemplate.xhtml">
+        <ui:define name="content">
+            <h:form id="updateCust" style="padding-top:20px">
+
+                <p:growl id="growl" showDetail="true"/>
+                <p:panel id="editform"
+                         header="#{editCustomerController.customerID==null? msg['createCustomer'] : msg['updateCustomer']}">
+                    <title>#{editCustomerController.customerID==null? msg['createCustomer'] : msg['updateCustomer']}</title>
+                    <p:focus context="editform"/>
+
+                    <h:panelGrid columns="3" cellpadding="6">
+
+                        <p:outputLabel for="firstname" value="#{msg['customer.firstName']}"/>
+                        <p:inputText id="firstname" required="true"
+                                     requiredMessage="#{msg['customer.enterFirstName']}."
+                                     validatorMessage="#{msg['customer.invalidNameFormat']}"
+                                     maxlength="20" value="#{editCustomerController.firstName}">
+                            <p:keyFilter regEx="/[A-Za-z]$/"/>
+                            <f:validateRegex pattern="^[A-Z][a-z]+$"/>
+                            <p:ajax event="blur" update="firstname firstnameMessage"/>
+                        </p:inputText>
+                        <p:message id="firstnameMessage" for="firstname"/>
+
+                        <p:outputLabel for="lastname" value="#{msg['customer.lastName']}"/>
+                        <p:inputText id="lastname" required="true"
+                                     requiredMessage="#{msg['customer.enterLastName']}."
+                                     validatorMessage="#{msg['customer.invalidNameFormat']}"
+                                     maxlength="20" value="#{editCustomerController.lastName}">
+                            <p:keyFilter regEx="/[A-Za-z]$/"/>
+                            <f:validateRegex pattern="^[A-Z][a-z]+$"/>
+                            <p:ajax event="blur" update="lastname lastnameMessage"/>
+                        </p:inputText>
+                        <p:message id="lastnameMessage" for="lastname"/>
+
+                        <p:outputLabel for="username" value="#{msg['customer.username']}"/>
+                        <p:inputText id="username" required="true" requiredMessage="#{msg['customer.enterUsername']}."
+                                     maxlength="20" value="#{editCustomerController.userName}"
+                                     validator="#{editCustomerController.validateUsername}">
+                            <p:keyFilter regEx="/[A-Za-z0-9]$/"/>
+                            <p:ajax event="blur" update="username usernameMessage"/>
+                        </p:inputText>
+                        <p:message id="usernameMessage" for="username"/>
+
+                        <p:outputLabel for="birthdate" value="#{msg['customer.birthDate']}"/>
+                        <p:calendar id="birthdate" required="true" requiredMessage="#{msg['customer.enterBirthDate']}."
+                                    pattern="dd-MM-yyyy" readonlyInput="true" yearRange="c-200:c" navigator="true"
+                                    effect="fold" maxdate="today" value="#{editCustomerController.birthDate}"/>
+                        <p:message for="birthdate"/>
+
+                        <p:outputLabel for="country" value="#{msg['customer.country']}: "/>
+                        <p:selectOneMenu id="country" required="true" requiredMessage="#{msg['customer.enterCountry']}."
+                                         value="#{editCustomerController.country}" style="width: 200px">
+                            <p:ajax listener="#{editCustomerController.onCountryChange()}" update="city"/>
+                            <f:selectItem itemLabel="#{msg['customer.selectCountry']}" itemValue=""
+                                          noSelectionOption="true"/>
+                            <f:selectItems value="#{editCustomerController.countries}"/>
+                        </p:selectOneMenu>
+                        <p:message for="country"/>
+
+                        <p:outputLabel for="city" value="#{msg['customer.city']}: "/>
+                        <p:selectOneMenu id="city" required="true" disabled="#{editCustomerController.country == null}"
+                                         requiredMessage="#{msg['customer.enterCity']}."
+                                         value="#{editCustomerController.city}" style="width: 200px">
+                            <f:selectItem itemLabel="#{msg['customer.selectCity']}" itemValue=""
+                                          noSelectionOption="true"/>
+                            <f:selectItems value="#{editCustomerController.cities}"/>
+                        </p:selectOneMenu>
+                        <p:message for="city"/>
+
+                        <p:outputLabel for="street" value="#{msg['customer.street']}: "/>
+                        <p:inputText id="street" required="true" requiredMessage="#{msg['customer.enterStreet']}."
+                                     maxlength="30" value="#{editCustomerController.street}">
+                            <p:keyFilter regEx="/[A-Za-z0-9 ]/"/>
+                            <p:ajax event="blur" update="street streetMessage"/>
+                        </p:inputText>
+                        <p:message id="streetMessage" for="street"/>
+
+                        <p:outputLabel for="email" value="#{msg['customer.email']}: "/>
+                        <p:inputText id="email" required="true" maxlength="40"
+                                     requiredMessage="#{msg['customer.enterEmail']}."
+                                     validatorMessage="#{msg['customer.invalidEmailFormat']}"
+                                     value="#{editCustomerController.email}">
+                            <f:validateRegex
+                                    pattern="^[_A-Za-z0-9-\+]+(\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9]+)*(\.[A-Za-z]{2,})$"/>
+                            <p:ajax event="blur" update="email emailMessage"/>
+                        </p:inputText>
+                        <p:message id="emailMessage" for="email"/>
+
+                        <p:outputLabel for="zipCode" value="#{msg['customer.zipCode']}: "/>
+                        <p:inputText id="zipCode" required="true" size="10"
+                                     requiredMessage="#{msg['customer.enterZipCode']}"
+                                     maxlength="10"
+                                     value="#{editCustomerController.zipCode}">
+                            <p:keyFilter regEx="/[A-Za-z0-9 ]/"/>
+                            <p:ajax event="blur" update="zipCode zipCodeMessage"/>
+                        </p:inputText>
+                        <p:message id="zipCodeMessage" for="zipCode"/>
+
+                        <p:outputLabel for="phoneNumber" value="#{msg['customer.phoneNumber']}: "/>
+                        <p:inputText id="phoneNumber" required="true" size="10"
+                                     requiredMessage="#{msg['customer.enterPhoneNumber']}"
+                                     validatorMessage="#{msg['phoneNumberLength']}"
+                                     maxlength="10"
+                                     value="#{editCustomerController.phoneNumber}">
+                            <p:keyFilter regEx="/[0-9 ]/"/>
+                            <f:validateRegex pattern="^[0-9]{10}$"/>
+                            <p:ajax event="blur" update="phoneNumber phoneNumberMessage"/>
+                        </p:inputText>
+                        <p:message id="phoneNumberMessage" for="phoneNumber"/>
+
+                        <p:outputLabel for="acceptTerms" value="#{msg['customer.acceptTerms']}: "/>
+                        <p:selectBooleanCheckbox id="acceptTerms" required="true"
+                                                 requiredMessage="#{msg['customer.enterAcceptTerms']}"
+                                                 value="#{editCustomerController.hasAcceptedTerms}"
+                                                disabled="#{editCustomerController.customerID != null}">
+                            <p:ajax event="change" process="acceptTerms" update="submitForm"/>
+                        </p:selectBooleanCheckbox>
+                        <p:message for="acceptTerms"/>
+
+                    </h:panelGrid>
+                    <p:separator/>
+                    <p:commandButton id="submitForm" value="#{msg['submit']}" update=":updateCust:growl @parent"
+                                     disabled="#{!editCustomerController.hasAcceptedTerms}"
+                                     actionListener="#{editCustomerController.register}"/>
+                </p:panel>
+            </h:form>
+            <h:form style="padding-top:20px">
+                <p:button value="#{msg['backToMainPage']}" outcome="customers.xhtml"/>
+            </h:form>
+        </ui:define>
+    </ui:composition>
+</h:body>
+</html>

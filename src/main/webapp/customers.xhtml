@@ -2,11 +2,68 @@
 <!DOCTYPE html
         PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
         "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://xmlns.jcp.org/jsf/html" xml:lang="en" lang="en">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:p="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xml:lang="en" lang="en">
 <h:head>
     <title>Title</title>
 </h:head>
 <h:body>
+    <ui:composition xmlns:h="http://java.sun.com/jsf/html"
+                    xmlns:p="http://primefaces.org/ui"
+                    xmlns:ui="http://java.sun.com/jsf/facelets"
+                    template="WEB-INF/templates/masterTemplate.xhtml">
+        <ui:define name="content">
+            <Title>AFSE Customer management tool</Title>
+            <h:form id="customers">
+                <p:growl id="delGrowl" showDetail="true"/>
+                <p:button value="#{msg['addNewCustomer']}" outcome="edit.xhtml?faces-redirect=true?"
+                          style="margin-bottom: 10px; margin-top: 10px"/>
 
+                <p:dataTable id="customersDatatable1" var="customer"
+                             value="#{mainPageController.customers}"
+                             resizableColumns="true"
+                             rows="5"
+                             paginator="true"
+                             paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                             rowsPerPageTemplate="5,10,15,20">
+                    <p:column filterBy="#{customer.firstName}" filterMatchMode="contains" filterStyle="width:130px"
+                              headerText="#{msg['customer.firstName']}" sortBy="#{customer.firstName}">
+                        <h:outputText value="#{customer.firstName}"/>
+                    </p:column>
+                    <p:column filterBy="#{customer.lastName}" filterMatchMode="contains" filterStyle="width:130px"
+                            headerText="#{msg['customer.lastName']}" sortBy="#{customer.lastName}">
+                        <h:outputText value="#{customer.lastName}"/>
+                    </p:column>
+                    <p:column filterBy="#{customer.userName}" filterMatchMode="contains" filterStyle="width:130px"
+                              headerText="#{msg['customer.username']}" sortBy="#{customer.userName}">
+                        <h:outputText value="#{customer.userName}"/>
+                    </p:column>
+
+                    <p:column style="width:120px;text-align: center">
+                        <p:commandLink value="#{msg['customer.edit']}" action="#{mainPageController.goToEditCustomerView(customer.id)}"/>
+                    </p:column>
+
+                    <p:column style="width:120px;text-align: center">
+                        <p:commandLink
+                                actionListener="#{mainPageController.deleteCustomer(customer.id)}"
+                                update="customers :customers:delGrowl">
+                            <h:outputText value="#{msg['customer.delete']}"/>
+                            <p:confirm header="#{msg['deleteConfirmHeader']}"
+                                       message="#{msg['deleteConfirmMessage']}" icon="ui-icon-alert"/>
+                        </p:commandLink>
+                    </p:column>
+                </p:dataTable>
+
+                <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+                    <p:commandButton value="#{msg['yes']}" type="button" styleClass="ui-confirmdialog-yes"
+                                     icon="ui-icon-check"/>
+                    <p:commandButton value="#{msg['no']}" type="button" styleClass="ui-confirmdialog-no"
+                                     icon="ui-icon-close"/>
+                </p:confirmDialog>
+            </h:form>
+        </ui:define>
+    </ui:composition>
 </h:body>
 </html>
