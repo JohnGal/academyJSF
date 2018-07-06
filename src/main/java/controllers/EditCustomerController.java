@@ -270,7 +270,7 @@ public class EditCustomerController implements Serializable {
         try {
             Customer customer = customersService.getCustomerByUsername(name);
             if (!customer.getId().equals(customerID)) {
-                throw new ValidatorException(new FacesMessage(FacesMessage.SEVERITY_ERROR, "invalid username", getLocalizedMessage("errorUserNameExists")));
+                throw new ValidatorException(new FacesMessage(FacesMessage.SEVERITY_ERROR, "invalid username", getLocalizedMessage("customer.errorUserNameExists")));
             }
         } catch (CustomerNotFoundException e) {
         }

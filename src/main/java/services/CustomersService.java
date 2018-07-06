@@ -103,8 +103,6 @@ public class CustomersService implements Serializable {
         customer.setZipCode("7384");
         addCustomer(customer);
 
-customers.addAll(customers);
-        customers.addAll(customers);
     }
 
     public List<Customer> getCustomers() {
