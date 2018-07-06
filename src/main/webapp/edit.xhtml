@@ -129,7 +129,7 @@
                         <p:selectBooleanCheckbox id="acceptTerms" required="true"
                                                  requiredMessage="#{msg['customer.enterAcceptTerms']}"
                                                  value="#{editCustomerController.hasAcceptedTerms}"
-                                                disabled="#{editCustomerController.customerID != null}">
+                                                 disabled="#{editCustomerController.customerID != null}">
                             <p:ajax event="change" process="acceptTerms" update="submitForm"/>
                         </p:selectBooleanCheckbox>
                         <p:message for="acceptTerms"/>

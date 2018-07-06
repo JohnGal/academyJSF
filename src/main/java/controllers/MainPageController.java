@@ -45,10 +45,10 @@ public class MainPageController implements Serializable {
         return message;
     }
 
-    public String goToEditCustomerView(Long id){
+    public String goToEditCustomerView(Long id) {
         Flash flash = FacesContext.getCurrentInstance().getExternalContext().getFlash();
         flash.put("customerID", id);
-        
+
         return "edit.xhtml?faces-redirect=true";
     }
 }

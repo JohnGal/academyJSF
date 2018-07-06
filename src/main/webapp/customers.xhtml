@@ -33,7 +33,7 @@
                         <h:outputText value="#{customer.firstName}"/>
                     </p:column>
                     <p:column filterBy="#{customer.lastName}" filterMatchMode="contains" filterStyle="width:130px"
-                            headerText="#{msg['customer.lastName']}" sortBy="#{customer.lastName}">
+                              headerText="#{msg['customer.lastName']}" sortBy="#{customer.lastName}">
                         <h:outputText value="#{customer.lastName}"/>
                     </p:column>
                     <p:column filterBy="#{customer.userName}" filterMatchMode="contains" filterStyle="width:130px"
@@ -42,7 +42,8 @@
                     </p:column>
 
                     <p:column style="width:120px;text-align: center">
-                        <p:commandLink value="#{msg['customer.edit']}" action="#{mainPageController.goToEditCustomerView(customer.id)}"/>
+                        <p:commandLink value="#{msg['customer.edit']}"
+                                       action="#{mainPageController.goToEditCustomerView(customer.id)}"/>
                     </p:column>
 
                     <p:column style="width:120px;text-align: center">

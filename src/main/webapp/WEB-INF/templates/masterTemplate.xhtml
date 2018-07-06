@@ -11,25 +11,25 @@
 <f:view locale="#{localeService.locale}"/>
 <h:body>
     <p:panel>
-    <div id="page" style="display: flex;
+        <div id="page" style="display: flex;
   min-height: 100vh;
   flex-direction: column;">
-        <div id="header">
-            <ui:insert name="header">
-                <ui:include src="header.xhtml"/>
-            </ui:insert>
-        </div>
-        <div id="content" style="flex: 1">
-            <ui:insert name="content">
+            <div id="header">
+                <ui:insert name="header">
+                    <ui:include src="header.xhtml"/>
+                </ui:insert>
+            </div>
+            <div id="content" style="flex: 1">
+                <ui:insert name="content">
 
-            </ui:insert>
+                </ui:insert>
+            </div>
+            <div id="footer">
+                <ui:insert name="footer">
+                    <ui:include src="footer.xhtml"/>
+                </ui:insert>
+            </div>
         </div>
-        <div id="footer">
-            <ui:insert name="footer">
-                <ui:include src="footer.xhtml"/>
-            </ui:insert>
-        </div>
-    </div>
     </p:panel>
 </h:body>
 </html>
