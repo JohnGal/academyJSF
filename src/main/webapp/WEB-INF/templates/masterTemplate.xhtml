@@ -8,18 +8,22 @@
       xmlns:f="http://xmlns.jcp.org/jsf/core" xmlns:p="http://primefaces.org/ui">
 
 <h:head></h:head>
+
 <f:view locale="#{localeService.locale}"/>
 <h:body>
+    <f:facet name="last">
+        <h:outputStylesheet library="css" name="style.css"/>
+    </f:facet>
+
     <p:panel>
-        <div id="page" style="display: flex;
-  min-height: 100vh;
-  flex-direction: column;">
+        <div id="page"
+             class="page-content">
             <div id="header">
                 <ui:insert name="header">
                     <ui:include src="header.xhtml"/>
                 </ui:insert>
             </div>
-            <div id="content" style="flex: 1">
+            <div id="content" class="main-content">
                 <ui:insert name="content">
 
                 </ui:insert>

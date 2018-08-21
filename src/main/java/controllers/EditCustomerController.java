@@ -1,5 +1,6 @@
 package controllers;
 
+import dummyData.CountryData;
 import exceptions.CustomerNotFoundException;
 import models.Customer;
 import services.CustomersService;
@@ -31,7 +32,6 @@ public class EditCustomerController implements Serializable {
     private Long customerID;
 
     private Customer customer;
-    private Customer tempCustomer = new Customer();
 
     @ManagedProperty(value = "#{customersService}")
     private CustomersService customersService;
@@ -43,61 +43,26 @@ public class EditCustomerController implements Serializable {
     @PostConstruct
     private void init() {
 
-        countries = new TreeSet<>();
-        countries.add("USA");
-        countries.add("Germany");
-        countries.add("Brazil");
-        countries.add("Greece");
-        countries.add("England");
+        data = (new CountryData()).getCountryData();
+        countries = new TreeSet<>(data.keySet());
 
-        Set<String> set = new TreeSet<>();
-        set.add("New York");
-        set.add("San Fransisco");
-        set.add("Denver");
-        set.add("Los Angeles");
-        data.put("USA", set);
-
-        set = new TreeSet<>();
-        set.add("Berlin");
-        set.add("Munich");
-        set.add("Frankfurt");
-        data.put("Germany", set);
-
-        set = new TreeSet<>();
-        set.add("Sao Paolo");
-        set.add("Rio de Janerio");
-        set.add("Salvador");
-        data.put("Brazil", set);
-
-        set = new TreeSet<>();
-        set.add("Athens");
-        set.add("Volos");
-        set.add("Kavala");
-        data.put("Greece", set);
-
-        set = new TreeSet<>();
-        set.add("London");
-        set.add("Bristol");
-        set.add("Chester");
-        data.put("England", set);
-
-        pullIdFromFlash();
+        getIdFromFlash();
 
     }
 
-    private void pullIdFromFlash() {
+    private void getIdFromFlash() {
         Flash flash = FacesContext.getCurrentInstance().getExternalContext().getFlash();
         setCustomerID((Long) flash.get("customerID"));
     }
 
     private void initCustomer(Long customerID) {
         if (customerID == null) {
+            customer = new Customer();
             return;
         }
 
         try {
-            customer = customersService.getCustomer(new Customer(customerID));
-            copyCustomerData(customer, tempCustomer);
+            customer = customersService.getCustomerById(customerID);
 
         } catch (CustomerNotFoundException e) {
             FacesContext facesContext = FacesContext.getCurrentInstance();
@@ -107,25 +72,9 @@ public class EditCustomerController implements Serializable {
                 externalContext.dispatch("customers.xhtml");
             } catch (IOException e1) {
             }
-            facesContext.responseComplete();
         }
 
         onCountryChange();
-    }
-
-    private void copyCustomerData(Customer src, Customer dest) {
-        dest.setFirstName(src.getFirstName());
-        dest.setLastName(src.getLastName());
-        dest.setUserName(src.getUserName());
-        dest.setBirthDate(src.getBirthDate());
-        dest.setCountry(src.getCountry());
-        dest.setCity(src.getCity());
-        dest.setStreet(src.getStreet());
-        dest.setZipCode(src.getZipCode());
-        dest.setPhoneNumber(src.getPhoneNumber());
-        dest.setEmail(src.getEmail());
-        dest.setId(src.getId());
-        dest.setHasAcceptedTerms(src.getHasAcceptedTerms());
     }
 
     public Long getCustomerID() {
@@ -140,22 +89,22 @@ public class EditCustomerController implements Serializable {
 
     public void setCountry(String country) {
         if (countries.contains(country)) {
-            tempCustomer.setCountry(country);
+            customer.setCountry(country);
         }
     }
 
     public void setCity(String city) {
         if (cities.contains(city)) {
-            tempCustomer.setCity(city);
+            customer.setCity(city);
         }
     }
 
     public String getCountry() {
-        return tempCustomer.getCountry();
+        return customer.getCountry();
     }
 
     public String getCity() {
-        return tempCustomer.getCity();
+        return customer.getCity();
     }
 
     public Set<String> getCountries() {
@@ -178,16 +127,14 @@ public class EditCustomerController implements Serializable {
     public String register() {
         FacesContext context = FacesContext.getCurrentInstance();
 
-        if (validateCustomer(tempCustomer)) {
+        if (validateCustomer(customer)) {
             if (customersService.containsCustomer(customer)) {
-                copyCustomerData(tempCustomer, customer);
+                customersService.updateCustomer(customer);
                 context.addMessage(null, new FacesMessage(getLocalizedMessage("successful"), getLocalizedMessage("customerSuccessEdit")));
             } else {
-                customer = new Customer();
-                copyCustomerData(tempCustomer, customer);
-                customersService.addCustomer(customer);
+                customerID = customersService.addCustomer(customer);
                 context.addMessage(null, new FacesMessage(getLocalizedMessage("successful"), getLocalizedMessage("customerSuccessCreate")));
-                customerID = customer.getId();
+                customer.setId(customerID);
             }
 
         } else {
@@ -220,32 +167,32 @@ public class EditCustomerController implements Serializable {
     }
 
     public String getFirstName() {
-        return tempCustomer.getFirstName();
+        return customer.getFirstName();
     }
 
     public void setFirstName(String name) {
         if (validateName(name)) {
-            tempCustomer.setFirstName(name);
+            customer.setFirstName(name);
         }
     }
 
     public String getLastName() {
-        return tempCustomer.getLastName();
+        return customer.getLastName();
     }
 
     public void setLastName(String name) {
         if (validateName(name)) {
-            tempCustomer.setLastName(name);
+            customer.setLastName(name);
         }
     }
 
     public String getUserName() {
-        return tempCustomer.getUserName();
+        return customer.getUserName();
     }
 
     public void setUserName(String name) {
         if (validateUsername(name)) {
-            tempCustomer.setUserName(name);
+            customer.setUserName(name);
         }
     }
 
@@ -304,17 +251,17 @@ public class EditCustomerController implements Serializable {
     }
 
     public Date getBirthDate() {
-        return tempCustomer.getBirthDate();
+        return customer.getBirthDate();
     }
 
     public void setBirthDate(Date birthDate) {
         if ((new Date()).after(birthDate)) {
-            tempCustomer.setBirthDate(birthDate);
+            customer.setBirthDate(birthDate);
         }
     }
 
     public String getEmail() {
-        return tempCustomer.getEmail();
+        return customer.getEmail();
     }
 
     private boolean validateEmail(String email) {
@@ -333,7 +280,7 @@ public class EditCustomerController implements Serializable {
 
     public void setEmail(String email) {
         if (email != null && validateEmail(email)) {
-            tempCustomer.setEmail(email);
+            customer.setEmail(email);
         }
     }
 
@@ -347,41 +294,41 @@ public class EditCustomerController implements Serializable {
     }
 
     public String getZipCode() {
-        return tempCustomer.getZipCode();
+        return customer.getZipCode();
     }
 
     public void setZipCode(String zipCode) {
         if (validateZipCode(zipCode)) {
-            tempCustomer.setZipCode(zipCode);
+            customer.setZipCode(zipCode);
         }
     }
 
     public boolean getHasAcceptedTerms() {
-        return tempCustomer.getHasAcceptedTerms();
+        return customer.getHasAcceptedTerms();
     }
 
     public void setHasAcceptedTerms(boolean hasAcceptedTerms) {
-        tempCustomer.setHasAcceptedTerms(hasAcceptedTerms);
+        customer.setHasAcceptedTerms(hasAcceptedTerms);
     }
 
 
     public String getPhoneNumber() {
-        return tempCustomer.getPhoneNumber();
+        return customer.getPhoneNumber();
     }
 
     public void setPhoneNumber(String phoneNumber) {
         if (phoneNumber != null && phoneNumber.length() == 10 && phoneNumber.matches("^[0-9]*$")) {
-            tempCustomer.setPhoneNumber(phoneNumber);
+            customer.setPhoneNumber(phoneNumber);
         }
     }
 
     public String getStreet() {
-        return tempCustomer.getStreet();
+        return customer.getStreet();
     }
 
     public void setStreet(String street) {
         if (street != null && street.length() <= 30) {
-            tempCustomer.setStreet(street);
+            customer.setStreet(street);
         }
     }
 

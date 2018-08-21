@@ -12,12 +12,23 @@
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+
+        <!--java version-->
+
         <java.version>1.8</java.version>
 
-        <servlet.version>3.1.0</servlet.version>
-        <jsf.version>2.2.15</jsf.version>
-        <primefaces.version>6.1</primefaces.version>
 
+        <!-- plugin versions-->
+        <war.plugin.version>3.2.2</war.plugin.version>
+        <compiler.plugin.version>3.7.0</compiler.plugin.version>
+        <wildfly.plugin.version>1.0.1.Final</wildfly.plugin.version>
+
+        <!--dependency versions-->
+
+        <jsf.api.version>2.1</jsf.api.version>
+        <primefaces.version>6.2</primefaces.version>
+        <javaee.api.version>8.0</javaee.api.version>
+        <primefaces.theme.version>1.0.10</primefaces.theme.version>
     </properties>
 
     <repositories>
@@ -32,48 +43,29 @@
         <dependency>
             <groupId>org.primefaces.themes</groupId>
             <artifactId>dark-hive</artifactId>
-            <version>1.0.10</version>
+            <version>${primefaces.theme.version}</version>
         </dependency>
         <!-- https://mvnrepository.com/artifact/org.primefaces.themes/all-themes -->
         <dependency>
             <groupId>org.primefaces.themes</groupId>
             <artifactId>all-themes</artifactId>
-            <version>1.0.10</version>
+            <version>${primefaces.theme.version}</version>
         </dependency>
-
-        <!--&lt;!&ndash; https://mvnrepository.com/artifact/javax.annotation/jsr250-api &ndash;&gt;-->
-        <!--<dependency>-->
-        <!--<groupId>javax.annotation</groupId>-->
-        <!--<artifactId>jsr250-api</artifactId>-->
-        <!--<version>1.0</version>-->
-        <!--</dependency>-->
 
         <!--https://mvnrepository.com/artifact/javax/javaee-api-->
         <dependency>
             <groupId>javax</groupId>
             <artifactId>javaee-api</artifactId>
-            <version>8.0</version>
+            <version>${javaee.api.version}</version>
             <scope>provided</scope>
         </dependency>
 
-        <!-- Servlet -->
-        <dependency>
-            <groupId>javax.servlet</groupId>
-            <artifactId>javax.servlet-api</artifactId>
-            <version>${servlet.version}</version>
-            <scope>provided</scope>
-        </dependency>
+
         <!-- JSF -->
         <dependency>
-            <groupId>com.sun.faces</groupId>
+            <groupId>javax.faces</groupId>
             <artifactId>jsf-api</artifactId>
-            <version>${jsf.version}</version>
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>com.sun.faces</groupId>
-            <artifactId>jsf-impl</artifactId>
-            <version>${jsf.version}</version>
+            <version>${jsf.api.version}</version>
             <scope>provided</scope>
         </dependency>
         <!-- PrimeFaces -->
@@ -90,18 +82,21 @@
         <plugins>
             <plugin>
                 <artifactId>maven-war-plugin</artifactId>
+                <version>${war.plugin.version}</version>
             </plugin>
             <plugin>
                 <groupId>org.wildfly.plugins</groupId>
                 <artifactId>wildfly-maven-plugin</artifactId>
-                <version>1.0.1.Final</version>
+                <version>${wildfly.plugin.version}</version>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
+                <version>${compiler.plugin.version}</version>
                 <configuration>
-                    <source>7</source>
-                    <target>7</target>
+                    <source>${java.version}</source>
+                    <target>${java.version}</target>
+                    <encoding>${project.build.sourceEncoding}</encoding>
                 </configuration>
             </plugin>
         </plugins>

@@ -6,8 +6,8 @@
 
     <application>
         <locale-config>
-            <default-locale>es</default-locale>
-            <supported-locale>en</supported-locale>
+            <default-locale>es-ES</default-locale>
+            <supported-locale>en-GB</supported-locale>
         </locale-config>
         <resource-bundle>
             <base-name>com.jsfProject.customers</base-name>

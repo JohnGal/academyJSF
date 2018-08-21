@@ -16,7 +16,7 @@ import java.util.ResourceBundle;
 
 @ManagedBean
 @ViewScoped
-public class MainPageController implements Serializable {
+public class CustomersController implements Serializable {
     private static final long serialVersionUID = -5244368569743288298L;
 
     @ManagedProperty(value = "#{customersService}")

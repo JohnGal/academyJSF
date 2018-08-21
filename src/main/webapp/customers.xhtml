@@ -7,7 +7,7 @@
       xmlns:f="http://java.sun.com/jsf/core"
       xml:lang="en" lang="en">
 
-<h:body>
+<h:body style="background-color: darkgrey">
     <ui:composition xmlns:h="http://java.sun.com/jsf/html"
                     xmlns:p="http://primefaces.org/ui"
                     xmlns:ui="http://java.sun.com/jsf/facelets"
@@ -16,38 +16,43 @@
             <Title>AFSE Customer management tool</Title>
             <h:form id="customers">
                 <p:growl id="delGrowl" showDetail="true"/>
-                <p:button value="#{msg['addNewCustomer']}" outcome="edit.xhtml?faces-redirect=true?"
-                          style="margin-bottom: 10px; margin-top: 10px"/>
+                <p:button value="#{msg['addNewCustomer']}"
+                          outcome="edit.xhtml?faces-redirect=true?"
+                          icon="fa fa-plus"
+                          styleClass="addCustomerButton"/>
 
                 <p:dataTable id="customersDatatable1" var="customer"
-                             value="#{mainPageController.customers}"
+                             widgetVar="customersDatatable"
+                             value="#{customersController.customers}"
                              resizableColumns="true"
                              rows="5"
                              paginator="true"
                              paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
                              rowsPerPageTemplate="5,10,15,20">
-                    <p:column filterBy="#{customer.firstName}" filterMatchMode="contains" filterStyle="width:130px"
+                    <p:column filterBy="#{customer.firstName}" filterMatchMode="contains"
                               headerText="#{msg['customer.firstName']}" sortBy="#{customer.firstName}">
                         <h:outputText value="#{customer.firstName}"/>
                     </p:column>
-                    <p:column filterBy="#{customer.lastName}" filterMatchMode="contains" filterStyle="width:130px"
+                    <p:column filterBy="#{customer.lastName}" filterMatchMode="contains"
                               headerText="#{msg['customer.lastName']}" sortBy="#{customer.lastName}">
                         <h:outputText value="#{customer.lastName}"/>
                     </p:column>
-                    <p:column filterBy="#{customer.userName}" filterMatchMode="contains" filterStyle="width:130px"
+                    <p:column filterBy="#{customer.userName}" filterMatchMode="contains"
                               headerText="#{msg['customer.username']}" sortBy="#{customer.userName}">
                         <h:outputText value="#{customer.userName}"/>
                     </p:column>
 
-                    <p:column style="width:120px;text-align: center">
+                    <p:column styleClass="modify-row-link">
                         <p:commandLink value="#{msg['customer.edit']}"
-                                       action="#{mainPageController.goToEditCustomerView(customer.id)}"/>
+                                       styleClass="fa fa-fw fa-edit"
+                                       action="#{customersController.goToEditCustomerView(customer.id)}"/>
                     </p:column>
 
-                    <p:column style="width:120px;text-align: center">
-                        <p:commandLink
-                                actionListener="#{mainPageController.deleteCustomer(customer.id)}"
-                                update="customers :customers:delGrowl">
+                    <p:column styleClass="modify-row-link">
+                        <p:commandLink styleClass="fa fa-trash"
+                                actionListener="#{customersController.deleteCustomer(customer.id)}"
+                                update="customers :customers:delGrowl"
+                                oncomplete="PF('customersDatatable').filter()">
                             <h:outputText value="#{msg['customer.delete']}"/>
                             <p:confirm header="#{msg['deleteConfirmHeader']}"
                                        message="#{msg['deleteConfirmMessage']}" icon="ui-icon-alert"/>

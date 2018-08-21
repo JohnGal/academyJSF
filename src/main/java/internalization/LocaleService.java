@@ -22,14 +22,16 @@ public class LocaleService implements Serializable {
 
     static {
         countries = new LinkedHashMap<>();
-        countries.put("English", Locale.ENGLISH);
-        countries.put("Spanish", Locale.forLanguageTag("es"));
-        FacesContext.getCurrentInstance().getViewRoot().setLocale(Locale.forLanguageTag("es"));
+        countries.put("English (GB)", Locale.forLanguageTag("en-GB"));
+        countries.put("Spanish (ES)", Locale.forLanguageTag("es-ES"));
+
     }
 
     @PostConstruct
     public void init() {
-        locale = FacesContext.getCurrentInstance().getApplication().getDefaultLocale().toLanguageTag();
+//        FacesContext.getCurrentInstance().getViewRoot().setLocale(Locale.forLanguageTag("es-ES"));
+//
+        locale = FacesContext.getCurrentInstance().getViewRoot().getLocale().toLanguageTag();
     }
 
     public void setLocale(String locale) {

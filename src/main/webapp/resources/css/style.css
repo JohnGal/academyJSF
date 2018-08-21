@@ -1,0 +1,106 @@
+.ui-widget, .ui-widget .ui-commandlink {
+    background-color: black;
+    color: darkgrey;
+}
+
+.ui-state-default, .ui-widget-content .ui-state-default, .ui-widget-header .ui-state-default {
+    font-weight: normal;
+    color: lightgray;
+}
+
+a.ui-widget-content {
+    color: darkgrey;
+}
+
+.ui-state-error, .ui-widget-content .ui-state-error, .ui-widget-header .ui-state-error {
+    border: 1px solid red;
+    background: inherit;
+
+}
+
+.header_title {
+    font-size: 40px;
+    text-align: center;
+    color: darkgrey;
+}
+
+.ui-widget, .ui-widget .ui-selectonemenu-label {
+    background-color: darkgrey;
+    color: black;
+}
+
+.ui-widget, .ui-widget .ui-outputlabel {
+    background-color: black;
+    color: lightgray;
+}
+
+.ui-widget-header {
+    color: lightgray;
+}
+
+.ui-inputfield, .ui-widget-content .ui-inputfield, .ui-widget-header .ui-inputfield {
+
+    background-color: darkgrey;
+    color: black;
+
+}
+
+.ui-widget-content {
+    color: darkgrey;
+}
+
+.modify-row-link {
+    width: 120px;
+    text-align: center;
+}
+
+.addCustomerButton {
+    margin-bottom: 10px;
+    margin-top: 10px;
+}
+
+.page-content {
+    display: flex;
+    min-height: 100vh;
+    flex-direction: column;
+}
+
+.main-content {
+    flex: 1;
+}
+
+.header_panel  {
+    position: relative;
+    top: 0px;
+    text-align: right;
+    padding-right: 10px;
+}
+
+.footer-panel .ui-widget-content a{
+    display: flex;
+    justify-content: center;
+    padding-top: 20px;
+    color: lightgray;
+}
+
+.ui-datatable .ui-column-filter {
+    width: 130px;
+}
+
+.form-input {
+    width: 100%;
+}
+
+.form-dropdown {
+    width: 88%;
+}
+
+.submit-button {
+    padding-top: 20px;
+}
+
+.ui-state-highlight, .ui-widget-content .ui-state-highlight, .ui-widget-header .ui-state-highlight {
+    border: 1px solid #cccccc;
+    background: darkgrey;
+    color: black;
+}

@@ -1,8 +1,10 @@
 package models;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class Customer {
+public class Customer implements Serializable {
+    private static final long serialVersionUID = -2130366538047557980L;
     private String firstName;
     private String lastName;
     private String userName;
@@ -17,6 +19,21 @@ public class Customer {
     private Long id;
 
     public Customer() {
+    }
+
+    public Customer(Customer customer) {
+        firstName = customer.getFirstName();
+        lastName = customer.getLastName();
+        userName = customer.getUserName();
+        birthDate = new Date(customer.getBirthDate().getTime());
+        country = customer.getCountry();
+        city = customer.getCity();
+        street = customer.getStreet();
+        zipCode = customer.getZipCode();
+        phoneNumber = customer.getPhoneNumber();
+        email = customer.getEmail();
+        hasAcceptedTerms = customer.getHasAcceptedTerms();
+        id = customer.getId();
     }
 
     public Customer(String userName) {
