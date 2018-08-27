@@ -61,7 +61,7 @@ a.ui-widget-content {
 
 .page-content {
     display: flex;
-    min-height: 100vh;
+    min-height: 95vh;
     flex-direction: column;
 }
 
@@ -69,7 +69,7 @@ a.ui-widget-content {
     flex: 1;
 }
 
-.header_panel  {
+.header_lanaguage_menu  {
     position: relative;
     top: 0px;
     text-align: right;

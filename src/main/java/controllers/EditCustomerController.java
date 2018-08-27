@@ -3,9 +3,11 @@ package controllers;
 import dummyData.CountryData;
 import exceptions.CustomerNotFoundException;
 import models.Customer;
+import org.apache.log4j.Logger;
 import services.CustomersService;
 
 import javax.annotation.PostConstruct;
+import javax.annotation.PreDestroy;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
@@ -15,6 +17,7 @@ import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.faces.context.Flash;
 import javax.faces.validator.ValidatorException;
+import javax.inject.Inject;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.Serializable;
@@ -33,6 +36,9 @@ public class EditCustomerController implements Serializable {
 
     private Customer customer;
 
+    @Inject
+    private Logger logger;
+
     @ManagedProperty(value = "#{customersService}")
     private CustomersService customersService;
 
@@ -42,12 +48,17 @@ public class EditCustomerController implements Serializable {
 
     @PostConstruct
     private void init() {
-
+        logger.info("post construct initiated");
         data = (new CountryData()).getCountryData();
         countries = new TreeSet<>(data.keySet());
 
         getIdFromFlash();
 
+    }
+
+    @PreDestroy
+    private void preDestroy(){
+        logger.info("pre destroy initiated");
     }
 
     private void getIdFromFlash() {
@@ -171,9 +182,9 @@ public class EditCustomerController implements Serializable {
     }
 
     public void setFirstName(String name) {
-        if (validateName(name)) {
+//        if (validateName(name)) {
             customer.setFirstName(name);
-        }
+//        }
     }
 
     public String getLastName() {

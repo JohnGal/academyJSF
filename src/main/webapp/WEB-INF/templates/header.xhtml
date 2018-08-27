@@ -8,15 +8,18 @@
 
 <h:body>
     <ui:composition>
-        <h:form>
-            <p:panel styleClass="header_panel">
+
+        <p:panel >
+            <h:form styleClass="header_lanaguage_menu">
                 <p:selectOneMenu value="#{localeService.locale}" onchange="submit()"
                                  valueChangeListener="#{localeService.localChanged}">
                     <f:selectItems value="#{localeService.countries}"/>
                 </p:selectOneMenu>
-                <h1 class="header_title" style="">AFSE Customer Management Tool</h1>
-            </p:panel>
-        </h:form>
+            </h:form>
+
+            <h1 class="header_title" style="">AFSE Customer Management Tool</h1>
+        </p:panel>
+
     </ui:composition>
 </h:body>
 </html>

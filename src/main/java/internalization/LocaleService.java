@@ -1,10 +1,14 @@
 package internalization;
 
+import org.apache.log4j.Logger;
+
 import javax.annotation.PostConstruct;
+import javax.annotation.PreDestroy;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ValueChangeEvent;
+import javax.inject.Inject;
 import java.io.Serializable;
 import java.util.LinkedHashMap;
 import java.util.Locale;
@@ -20,6 +24,9 @@ public class LocaleService implements Serializable {
 
     private static Map<String, Object> countries;
 
+    @Inject
+    private Logger logger;
+
     static {
         countries = new LinkedHashMap<>();
         countries.put("English (GB)", Locale.forLanguageTag("en-GB"));
@@ -27,11 +34,17 @@ public class LocaleService implements Serializable {
 
     }
 
+
     @PostConstruct
     public void init() {
+        logger.info("Post construct initiated");
 //        FacesContext.getCurrentInstance().getViewRoot().setLocale(Locale.forLanguageTag("es-ES"));
 //
         locale = FacesContext.getCurrentInstance().getViewRoot().getLocale().toLanguageTag();
+    }
+    @PreDestroy
+    private void preDestroy(){
+        logger.info("pre destroy initiated");
     }
 
     public void setLocale(String locale) {

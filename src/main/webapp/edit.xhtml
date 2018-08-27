@@ -29,8 +29,8 @@
                                      validatorMessage="#{msg['customer.invalidNameFormat']}"
                                      maxlength="20" value="#{editCustomerController.firstName}">
                             <p:keyFilter regEx="/[A-Za-z]$/"/>
-                            <f:validateRegex pattern="^[A-Z][a-z]+$"/>
-                            <p:ajax event="blur" update="firstname firstnameMessage"/>
+                            <f:validator />
+                            <p:ajax event="blur" update=":updateCust:growl firstname firstnameMessage"/>
                         </p:inputText>
                         <p:message id="firstnameMessage" for="firstname"/>
 
@@ -41,7 +41,7 @@
                                      maxlength="20" value="#{editCustomerController.lastName}">
                             <p:keyFilter regEx="/[A-Za-z]$/"/>
                             <f:validateRegex pattern="^[A-Z][a-z]+$"/>
-                            <p:ajax event="blur" update="lastname lastnameMessage"/>
+                            <p:ajax event="blur" update=":updateCust:growl lastname lastnameMessage"/>
                         </p:inputText>
                         <p:message id="lastnameMessage" for="lastname"/>
 
@@ -51,7 +51,7 @@
                                      maxlength="20" value="#{editCustomerController.userName}"
                                      validator="#{editCustomerController.validateUsername}">
                             <p:keyFilter regEx="/[A-Za-z0-9]$/"/>
-                            <p:ajax event="blur" update="username usernameMessage"/>
+                            <p:ajax event="blur" update=":updateCust:growl username usernameMessage"/>
                         </p:inputText>
                         <p:message id="usernameMessage" for="username"/>
 
@@ -87,7 +87,7 @@
                                      requiredMessage="#{msg['customer.enterStreet']}."
                                      maxlength="30" value="#{editCustomerController.street}">
                             <p:keyFilter regEx="/[A-Za-z0-9 ]/"/>
-                            <p:ajax event="blur" update="street streetMessage"/>
+                            <p:ajax event="blur" update=":updateCust:growl street streetMessage"/>
                         </p:inputText>
                         <p:message id="streetMessage" for="street"/>
 
@@ -99,7 +99,7 @@
                                      value="#{editCustomerController.email}">
                             <f:validateRegex
                                     pattern="^[_A-Za-z0-9-\+]+(\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9]+)*(\.[A-Za-z]{2,})$"/>
-                            <p:ajax event="blur" update="email emailMessage"/>
+                            <p:ajax event="blur" update=":updateCust:growl email emailMessage"/>
                         </p:inputText>
                         <p:message id="emailMessage" for="email"/>
 
@@ -109,7 +109,7 @@
                                      maxlength="10"
                                      value="#{editCustomerController.zipCode}">
                             <p:keyFilter regEx="/[A-Za-z0-9 ]/"/>
-                            <p:ajax event="blur" update="zipCode zipCodeMessage"/>
+                            <p:ajax event="blur" update=":updateCust:growl zipCode zipCodeMessage"/>
                         </p:inputText>
                         <p:message id="zipCodeMessage" for="zipCode"/>
 
@@ -121,7 +121,7 @@
                                      value="#{editCustomerController.phoneNumber}">
                             <p:keyFilter regEx="/[0-9 ]/"/>
                             <f:validateRegex pattern="^[0-9]{10}$"/>
-                            <p:ajax event="blur" update="phoneNumber phoneNumberMessage"/>
+                            <p:ajax event="blur" update=":updateCust:growl phoneNumber phoneNumberMessage"/>
                         </p:inputText>
                         <p:message id="phoneNumberMessage" for="phoneNumber"/>
 

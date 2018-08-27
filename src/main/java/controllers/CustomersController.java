@@ -1,14 +1,18 @@
 package controllers;
 
 import models.Customer;
+import org.apache.log4j.Logger;
 import services.CustomersService;
 
+import javax.annotation.PostConstruct;
+import javax.annotation.PreDestroy;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.context.Flash;
+import javax.inject.Inject;
 import java.io.Serializable;
 import java.util.List;
 import java.util.Locale;
@@ -18,6 +22,20 @@ import java.util.ResourceBundle;
 @ViewScoped
 public class CustomersController implements Serializable {
     private static final long serialVersionUID = -5244368569743288298L;
+
+
+    @Inject
+    private Logger logger;
+
+    @PostConstruct
+    private void postConstruct() {
+        logger.info("post construct initiated");
+    }
+
+    @PreDestroy
+    private void preDestroy() {
+        logger.info("pre destroy initiated");
+    }
 
     @ManagedProperty(value = "#{customersService}")
     private CustomersService customersService;

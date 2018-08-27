@@ -29,6 +29,8 @@
         <primefaces.version>6.2</primefaces.version>
         <javaee.api.version>8.0</javaee.api.version>
         <primefaces.theme.version>1.0.10</primefaces.theme.version>
+
+        <slf4j.version>1.7.7</slf4j.version>
     </properties>
 
     <repositories>
@@ -40,6 +42,22 @@
     </repositories>
 
     <dependencies>
+
+        <!-- from java.util.logging to log4j -->
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>jul-to-slf4j</artifactId>
+            <version>${slf4j.version}</version>
+        </dependency>
+
+        <!-- it help to get slf4j and log4j -->
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-log4j12</artifactId>
+            <version>${slf4j.version}</version>
+        </dependency>
+
+
         <dependency>
             <groupId>org.primefaces.themes</groupId>
             <artifactId>dark-hive</artifactId>
