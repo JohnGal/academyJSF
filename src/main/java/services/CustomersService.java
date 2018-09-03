@@ -5,25 +5,30 @@ import exceptions.CustomerNotFoundException;
 import models.Customer;
 
 import javax.annotation.PostConstruct;
+import javax.ejb.EJB;
+import javax.ejb.Stateless;
 import javax.faces.bean.ApplicationScoped;
 import javax.faces.bean.ManagedBean;
 import java.io.Serializable;
 import java.util.List;
 
-@ManagedBean
-@ApplicationScoped
+@Stateless
+//@ManagedBean
+//@ApplicationScoped
 public class CustomersService implements Serializable {
 
     private static final long serialVersionUID = -1028825087637725483L;
 
-    private List<Customer> customers;
-    private Long maxID = 0L;
+    private static List<Customer> customers;
+    private static Long maxID = 0L;
 
     @PostConstruct
     public void init() {
-        CustomerData customerData = new CustomerData();
-        customers = customerData.getCustomerData();
-        maxID = customerData.getMaxID();
+        if (customers == null) {
+            CustomerData customerData = new CustomerData();
+            customers = customerData.getCustomerData();
+            maxID = customerData.getMaxID();
+        }
     }
 
     public List<Customer> getCustomers() {

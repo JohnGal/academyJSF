@@ -8,6 +8,7 @@ import services.CustomersService;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
+import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
@@ -27,7 +28,7 @@ import java.util.regex.Pattern;
 @ManagedBean
 @ViewScoped
 public class EditCustomerController implements Serializable {
-    private static final long serialVersionUID = 3369499013929317972L;
+    private static final long serialVersionUID = -7396735736966689162L;
     private Set<String> countries;
     private Set<String> cities;
     private Map<String, Set<String>> data = new HashMap<>();
@@ -36,10 +37,12 @@ public class EditCustomerController implements Serializable {
 
     private Customer customer;
 
+
     @Inject
     private Logger logger;
 
-    @ManagedProperty(value = "#{customersService}")
+    @EJB
+//    @ManagedProperty(value = "#{customersService}")
     private CustomersService customersService;
 
     public void setCustomersService(CustomersService customersService) {
@@ -57,7 +60,7 @@ public class EditCustomerController implements Serializable {
     }
 
     @PreDestroy
-    private void preDestroy(){
+    private void preDestroy() {
         logger.info("pre destroy initiated");
     }
 
@@ -97,21 +100,16 @@ public class EditCustomerController implements Serializable {
         initCustomer(customerID);
     }
 
-
     public void setCountry(String country) {
-        if (countries.contains(country)) {
-            customer.setCountry(country);
-        }
-    }
-
-    public void setCity(String city) {
-        if (cities.contains(city)) {
-            customer.setCity(city);
-        }
+        customer.setCountry(country);
     }
 
     public String getCountry() {
         return customer.getCountry();
+    }
+
+    public void setCity(String city) {
+        customer.setCity(city);
     }
 
     public String getCity() {
@@ -128,7 +126,7 @@ public class EditCustomerController implements Serializable {
 
     public void onCountryChange() {
 
-        if (getCountry() != null && !" ".equals(getCountry())) {
+        if (getCountry() != null && !"".equals(getCountry())) {
             cities = data.get(getCountry());
         } else {
             cities = new HashSet<>();
@@ -183,7 +181,7 @@ public class EditCustomerController implements Serializable {
 
     public void setFirstName(String name) {
 //        if (validateName(name)) {
-            customer.setFirstName(name);
+        customer.setFirstName(name);
 //        }
     }
 
@@ -275,33 +273,8 @@ public class EditCustomerController implements Serializable {
         return customer.getEmail();
     }
 
-    private boolean validateEmail(String email) {
-        boolean valid = false;
-
-        if (email == null) {
-            return valid;
-        }
-
-        Pattern pattern = Pattern.compile(
-                "^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$");
-        valid = pattern.matcher(email).matches();
-
-        return valid;
-    }
-
     public void setEmail(String email) {
-        if (email != null && validateEmail(email)) {
-            customer.setEmail(email);
-        }
-    }
-
-    private boolean validateZipCode(String zipcode) {
-        boolean validation = false;
-        if (zipcode != null && zipcode.length() < 10) {
-            validation = true;
-        }
-
-        return validation;
+        customer.setEmail(email);
     }
 
     public String getZipCode() {
@@ -309,9 +282,7 @@ public class EditCustomerController implements Serializable {
     }
 
     public void setZipCode(String zipCode) {
-        if (validateZipCode(zipCode)) {
-            customer.setZipCode(zipCode);
-        }
+        customer.setZipCode(zipCode);
     }
 
     public boolean getHasAcceptedTerms() {
@@ -328,9 +299,7 @@ public class EditCustomerController implements Serializable {
     }
 
     public void setPhoneNumber(String phoneNumber) {
-        if (phoneNumber != null && phoneNumber.length() == 10 && phoneNumber.matches("^[0-9]*$")) {
-            customer.setPhoneNumber(phoneNumber);
-        }
+        customer.setPhoneNumber(phoneNumber);
     }
 
     public String getStreet() {
@@ -338,9 +307,7 @@ public class EditCustomerController implements Serializable {
     }
 
     public void setStreet(String street) {
-        if (street != null && street.length() <= 30) {
-            customer.setStreet(street);
-        }
+        customer.setStreet(street);
     }
 
     private String getLocalizedMessage(String messageName) {
@@ -349,5 +316,9 @@ public class EditCustomerController implements Serializable {
         String message = myResources.getString(messageName);
 
         return message;
+    }
+
+    public String getTitle() {
+        return customerID == null ? getLocalizedMessage("createCustomer") : getLocalizedMessage("updateCustomer");
     }
 }

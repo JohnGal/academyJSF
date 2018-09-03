@@ -7,18 +7,20 @@ import javax.faces.validator.FacesValidator;
 import javax.faces.validator.ValidatorException;
 import java.util.regex.Pattern;
 
-@FacesValidator("phoneValidator")
-public class PhoneValidator extends AbstractValidator {
+@FacesValidator("emailValidator")
+public class EmailValidator extends AbstractValidator {
+
     @Override
     public void validate(FacesContext facesContext, UIComponent uiComponent, Object o) throws ValidatorException {
         String name = o.toString();
 
-        Pattern pattern = Pattern.compile("^[0-9]{10}$");
+        Pattern pattern = Pattern.compile("^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$");
         if(!pattern.matcher(name).matches() && name.length() <= 20){
             FacesMessage msg =
-                    new FacesMessage(getLocalizedMessage("customer.errorInvalidPhoneNumber"));
+                    new FacesMessage(getLocalizedMessage("customer.invalidEmailFormat"));
             msg.setSeverity(FacesMessage.SEVERITY_ERROR);
             throw new ValidatorException(msg);
         }
     }
 }
+

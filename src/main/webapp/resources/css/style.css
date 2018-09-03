@@ -69,14 +69,14 @@ a.ui-widget-content {
     flex: 1;
 }
 
-.header_lanaguage_menu  {
+.header_lanaguage_menu {
     position: relative;
-    top: 0px;
+    top: 0;
     text-align: right;
     padding-right: 10px;
 }
 
-.footer-panel .ui-widget-content a{
+.footer-panel .ui-widget-content a {
     display: flex;
     justify-content: center;
     padding-top: 20px;

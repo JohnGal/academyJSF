@@ -6,6 +6,7 @@ import services.CustomersService;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
+import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
@@ -37,7 +38,8 @@ public class CustomersController implements Serializable {
         logger.info("pre destroy initiated");
     }
 
-    @ManagedProperty(value = "#{customersService}")
+//    @ManagedProperty(value = "#{customersService}")
+    @EJB
     private CustomersService customersService;
 
     public void setCustomersService(CustomersService customersService) {

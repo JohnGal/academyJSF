@@ -17,8 +17,8 @@
 
                 <p:growl id="growl" showDetail="true"/>
                 <p:panel id="editform"
-                         header="#{editCustomerController.customerID==null? msg['createCustomer'] : msg['updateCustomer']}">
-                    <title>#{editCustomerController.customerID==null? msg['createCustomer'] : msg['updateCustomer']}</title>
+                         header="#{editCustomerController.title}">
+                    <title>#{editCustomerController.title}</title>
                     <p:focus context="editform"/>
 
                     <h:panelGrid columns="3" cellpadding="6">
@@ -26,10 +26,9 @@
                         <p:outputLabel for="firstname" value="#{msg['customer.firstName']}"/>
                         <p:inputText id="firstname" required="true" styleClass="form-input"
                                      requiredMessage="#{msg['customer.enterFirstName']}."
-                                     validatorMessage="#{msg['customer.invalidNameFormat']}"
                                      maxlength="20" value="#{editCustomerController.firstName}">
                             <p:keyFilter regEx="/[A-Za-z]$/"/>
-                            <f:validator />
+                            <f:validator validatorId="nameValidator" />
                             <p:ajax event="blur" update=":updateCust:growl firstname firstnameMessage"/>
                         </p:inputText>
                         <p:message id="firstnameMessage" for="firstname"/>
@@ -37,10 +36,9 @@
                         <p:outputLabel for="lastname" value="#{msg['customer.lastName']}"/>
                         <p:inputText id="lastname" required="true" styleClass="form-input"
                                      requiredMessage="#{msg['customer.enterLastName']}."
-                                     validatorMessage="#{msg['customer.invalidNameFormat']}"
                                      maxlength="20" value="#{editCustomerController.lastName}">
                             <p:keyFilter regEx="/[A-Za-z]$/"/>
-                            <f:validateRegex pattern="^[A-Z][a-z]+$"/>
+                            <f:validator validatorId="nameValidator" />
                             <p:ajax event="blur" update=":updateCust:growl lastname lastnameMessage"/>
                         </p:inputText>
                         <p:message id="lastnameMessage" for="lastname"/>
@@ -65,7 +63,7 @@
                         <p:outputLabel for="country" value="#{msg['customer.country']}: "/>
                         <p:selectOneMenu id="country" required="true" requiredMessage="#{msg['customer.enterCountry']}."
                                          value="#{editCustomerController.country}" styleClass="form-dropdown">
-                            <p:ajax listener="#{editCustomerController.onCountryChange()}" update="city"/>
+                            <p:ajax listener="#{editCustomerController.onCountryChange}" update="city"/>
                             <f:selectItem itemLabel="#{msg['customer.selectCountry']}" itemValue=""
                                           noSelectionOption="true"/>
                             <f:selectItems value="#{editCustomerController.countries}"/>
@@ -86,7 +84,8 @@
                         <p:inputText id="street" required="true" styleClass="form-input"
                                      requiredMessage="#{msg['customer.enterStreet']}."
                                      maxlength="30" value="#{editCustomerController.street}">
-                            <p:keyFilter regEx="/[A-Za-z0-9 ]/"/>
+                            <p:keyFilter regEx="/[A-Za-z0-9 '.]/"/>
+                            <f:validator validatorId="streetValidator" />
                             <p:ajax event="blur" update=":updateCust:growl street streetMessage"/>
                         </p:inputText>
                         <p:message id="streetMessage" for="street"/>
@@ -97,8 +96,7 @@
                                      requiredMessage="#{msg['customer.enterEmail']}."
                                      validatorMessage="#{msg['customer.invalidEmailFormat']}"
                                      value="#{editCustomerController.email}">
-                            <f:validateRegex
-                                    pattern="^[_A-Za-z0-9-\+]+(\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9]+)*(\.[A-Za-z]{2,})$"/>
+                            <f:validator validatorId="emailValidator" />
                             <p:ajax event="blur" update=":updateCust:growl email emailMessage"/>
                         </p:inputText>
                         <p:message id="emailMessage" for="email"/>
@@ -109,6 +107,7 @@
                                      maxlength="10"
                                      value="#{editCustomerController.zipCode}">
                             <p:keyFilter regEx="/[A-Za-z0-9 ]/"/>
+                            <f:validator validatorId="zipCodeValidator" />
                             <p:ajax event="blur" update=":updateCust:growl zipCode zipCodeMessage"/>
                         </p:inputText>
                         <p:message id="zipCodeMessage" for="zipCode"/>
@@ -116,11 +115,10 @@
                         <p:outputLabel for="phoneNumber" value="#{msg['customer.phoneNumber']}: "/>
                         <p:inputText id="phoneNumber" required="true" styleClass="form-input"
                                      requiredMessage="#{msg['customer.enterPhoneNumber']}"
-                                     validatorMessage="#{msg['phoneNumberLength']}"
                                      maxlength="10"
                                      value="#{editCustomerController.phoneNumber}">
                             <p:keyFilter regEx="/[0-9 ]/"/>
-                            <f:validateRegex pattern="^[0-9]{10}$"/>
+                            <f:validator validatorId="phoneValidator" />
                             <p:ajax event="blur" update=":updateCust:growl phoneNumber phoneNumberMessage"/>
                         </p:inputText>
                         <p:message id="phoneNumberMessage" for="phoneNumber"/>
@@ -141,9 +139,9 @@
                                      actionListener="#{editCustomerController.register}"/>
                 </p:panel>
             </h:form>
-            <h:form styleClass="submit-button">
+            <div class="submit-button">
                 <p:button value="#{msg['backToMainPage']}" outcome="customers.xhtml"/>
-            </h:form>
+            </div>
         </ui:define>
     </ui:composition>
 </h:body>
